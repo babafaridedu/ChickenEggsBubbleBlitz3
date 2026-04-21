@@ -9,9 +9,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <GCSDKDomain/GCSDKDomain.h>
+#import <GeoComplySDK/GeoComplyClientProtocol.h>
+#import <GeoComplySDK/GeoComplyMyIpServiceProtocol.h>
+#import <GeoComplySDK/GeoComplyBeaconScannerProtocol.h>
 
-@interface GeoComplyClient : NSObject <GeoComplyClientProtocol, GeoComplyMyIpServiceProtocol>
+@interface GeoComplyClient : NSObject <GeoComplyClientProtocol, GeoComplyMyIpServiceProtocol, GeoComplyBeaconScannerProtocol>
 
 #pragma mark - GeoComplyClientProtocol
 
@@ -267,4 +269,43 @@
  */
 - (GCReasonCode * _Nullable)reasonCode;
 
+
+#pragma mark - Time Drift
+
+/**
+ Get the difference, in milliseconds, between local time and network time.
+ 
+ @param error An error pointer for error diagnostics.
+ 
+ @return The difference, in milliseconds, between local time and network time, if it's available. Otherwise, returns 0 with an error.
+ */
+- (long)getTimeDrift:(NSError * _Nullable __autoreleasing * _Nullable)error;
+
+/**
+ Get the current network datetime.
+ 
+ @param error An error pointer for error diagnostics.
+ 
+ @return An NSDate object representing the current network datetime. Otherwise, returns nil with an error.
+ */
+- (NSDate * _Nullable)getCurrentNetworkTime:(NSError * _Nullable __autoreleasing * _Nullable)error;
+
+#pragma mark - Nearby Beacon
+
+/**
+Start scanning the nearby beacon.
+
+ @param delegate this object will handle events, data emitted by the SDK while scanning nearby beacons
+*/
+- (void)startBeaconUpdatingWithDelegate:(id<GCBeaconScannerDelegate> _Nullable)delegate;
+
+/**
+Stop scanning the nearby beacon.
+*/
+- (void)stopBeaconUpdating;
+
+/**
+ Check whether the SDK is scanning nearby beacon.
+*/
+- (BOOL)isBeaconUpdating;
 @end

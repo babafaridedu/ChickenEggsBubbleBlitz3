@@ -3,7 +3,7 @@ platform :ios, '14.0'
 target 'ChickenEggs BubbleBlitz' do
   use_frameworks!
 
-  pod 'Skillz', '2025.0.50'
+  pod 'Skillz', '2025.1.546'
 end
 
 post_install do |installer|
